@@ -4,6 +4,7 @@ import "./Post.css"
 
 export function Post({ content, id }: Props) {
   const meta = usePostDetail(id);
+  console.log(meta)
   return (
     <div className="post">
       <p className="post-content">{content}</p>

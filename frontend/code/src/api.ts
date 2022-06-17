@@ -19,6 +19,7 @@ export function usePosts() {
       const response = await fetch(`${API_URL}/posts`).then((res) =>
         res.json()
       );
+      console.log(response)
       const rows: Post[] = response.data;
       setPosts(rows.reverse());
     } catch (err) {

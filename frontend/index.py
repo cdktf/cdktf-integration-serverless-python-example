@@ -1,7 +1,6 @@
 import json
 import os
 import os.path as Path
-from turtle import forward
 from constructs import Construct
 from cdktf import Resource, TerraformOutput
 from cdktf_cdktf_provider_local import File
@@ -93,6 +92,10 @@ class Frontend(Resource):
                 cloudfront_default_certificate = True
             )
         )
+        if(apiEndPoint == ""):
+            print("Is still nothing")
+        else:
+            print(apiEndPoint)
 
         File(self, "env",
             filename = Path.join(os.getcwd(), "frontend", "code", ".env.production.local"),
