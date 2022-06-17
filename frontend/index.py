@@ -92,10 +92,6 @@ class Frontend(Resource):
                 cloudfront_default_certificate = True
             )
         )
-        if(apiEndPoint == ""):
-            print("Is still nothing")
-        else:
-            print(apiEndPoint)
 
         File(self, "env",
             filename = Path.join(os.getcwd(), "frontend", "code", ".env.production.local"),

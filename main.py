@@ -88,7 +88,7 @@ else:
     
     postsProd = PostsStack(app, "posts-prod",
         environment = "production",
-        user = ""
+        user = os.getenv("CDKTF_USER")
     )
     if(USE_REMOTE_BACKEND):
         RemoteBackend(postsProd,
