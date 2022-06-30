@@ -13,7 +13,7 @@ Backend API: AWS Lambda + API Gateway + DynamoDB
 
 We will have two primary Stacks– PostsStack and FrontendStack
 
-The Post and Frontend class encapsulate the finer details of infrastructure provisioned for each respective Stack. The first parameter denotes the scope of the infrastructure being provision– we use `this` to tie the infrastructure contained in Post/Frontend to the Stack in which it is contained, the same is true with `AwsProvider`. 
+The Post and Frontend class encapsulate the finer details of infrastructure provisioned for each respective Stack. The first parameter denotes the scope of the infrastructure being provision– we use `self` to tie the infrastructure contained in Post/Frontend to the Stack in which it is contained, the same is true with `AwsProvider`. 
 
 ```python
 class PostsStack(TerraformStack):
