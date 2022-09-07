@@ -4,42 +4,42 @@ This repository contains an end to end serverless web app hosted on AWS and depl
 
 ## Techstack
 
-Frontend: React, Create React App, statically hosted via AWS S3 + CloudFront 
+Frontend: React, Create React App, statically hosted via AWS S3 + CloudFront
 Backend API: AWS Lambda + API Gateway + DynamoDB
 
 ## Application
 
-### Stacks 
+### Stacks
 
 We will have two primary Stacks– PostsStack and FrontendStack
 
-The Post and Frontend class encapsulate the finer details of infrastructure provisioned for each respective Stack. The first parameter denotes the scope of the infrastructure being provision– we use `self` to tie the infrastructure contained in Post/Frontend to the Stack in which it is contained, the same is true with `AwsProvider`. 
+The Post and Frontend class encapsulate the finer details of infrastructure provisioned for each respective Stack. The first parameter denotes the scope of the infrastructure being provision– we use `self` to tie the infrastructure contained in Post/Frontend to the Stack in which it is contained, the same is true with `AwsProvider`.
 
 ```python
 class PostsStack(TerraformStack):
- 
+
    posts: Posts
-  
+
    def __init__(self, scope: Construct, name: str, environment: str, user: str):
        super().__init__(scope,name)
- 
+
        AwsProvider(self, "aws",
            region =  "eu-central-1",
        )
- 
+
        self.posts = Posts(self, "posts",
            environment = environment,
            userSuffix = user
        )
- 
-``` 
+
+```
 
 ```python
 class FrontendStack(TerraformStack):
-  
+
    def __init__(self, scope: Construct, name: str, environment: str , apiEndPoint: str):
        super().__init__(scope, name)
- 
+
        AwsProvider(self, "aws",
            region = "eu-central-1",
        )
@@ -48,7 +48,7 @@ class FrontendStack(TerraformStack):
            environment = environment,
            apiEndPoint = apiEndPoint,
        )
- 
+
 ```
 
 In using different Stacks to separate aspects of our infrastructure we allow for separation in state management of the frontend and backend– making alteration and redeployment of a specific piece of infrastructure a simpler process. Additionally, this allows for the instantiation of the same resource multiple times throughout.
@@ -57,7 +57,7 @@ For example…
 
 ```python
 # In main.py
- 
+
 postsDev = PostsStack(app, "posts-dev",
        environment = "development",
        user = os.getenv("CDKTF_USER")
@@ -75,41 +75,39 @@ frontendProd = FrontendStack(app, "frontend-prod",
        apiEndPoint = postsProd.posts.apiEndPoint,
    )`
 ```
-Here we created separate instances of the infrastructure for the frontend and backend with different naming of the resources in each application environment (by ways of the environment param), with the ease of adding additional as needed. 
+
+Here we created separate instances of the infrastructure for the frontend and backend with different naming of the resources in each application environment (by ways of the environment param), with the ease of adding additional as needed.
 
 ### Posts
 
-The Posts class melds two elements together– the Dynamodb table coming from PostsStorage and our Lambda function and Apigateway coming from PostsApi that takes our new Dynamodb table for setting up the Lambda function environment. 
+The Posts class melds two elements together– the Dynamodb table coming from PostsStorage and our Lambda function and Apigateway coming from PostsApi that takes our new Dynamodb table for setting up the Lambda function environment.
 
 ```python
 class Posts(Resource):
-   
+
    apiEndPoint: str
- 
+
    def __init__(self, scope: Construct, id: str, environment: str, userSuffix: str ):
        super().__init__(scope, id)
- 
+
        storage = PostsStorage(self, "storage",
            environment = environment,
            userSuffix = userSuffix
        )
- 
+
        postsApi = PostsApi(self, "api",
            environment = environment,
            table = storage.table,
            userSuffix = userSuffix
        )
- 
+
        self.apiEndPoint = postsApi.apiEndPoint
- 
+
 ```
 
-In PostsApi we create our Lambda function and Apigateway, along with the needed permissions/policies and IAM role. 
+In PostsApi we create our Lambda function and Apigateway, along with the needed permissions/policies and IAM role.
 
-Here we see a use of the environment variable– the one that was initially given in main.java. With this we provide greater description for the resources in each environment as well as avoiding naming conflicts. 
-
-
-
+Here we see a use of the environment variable– the one that was initially given in main.java. With this we provide greater description for the resources in each environment as well as avoiding naming conflicts.
 
 ```python
        role = IamRole(self, "lambda-exec",
@@ -117,7 +115,7 @@ Here we see a use of the environment variable– the one that was initially give
 //...
 ```
 
-It is also in the IAM Role that we define certain policies for the role. It is important to note that policies that are denoted as taking Strings (in IamRole and elsewhere) are really JSON strings. 
+It is also in the IAM Role that we define certain policies for the role. It is important to note that policies that are denoted as taking Strings (in IamRole and elsewhere) are really JSON strings.
 
 For example…
 
@@ -138,7 +136,6 @@ role = IamRole(self, "lambda-exec",
            }),
 		   #...
 ```
-
 
 This TerraformAsset helps manage our local Lambda function implementation. Providing necessary details for defining our Lambda.
 
@@ -165,7 +162,7 @@ new_lambda = LambdaFunction(self, "api",
        )
 ```
 
-Our API Gateway will sit between our Frontend and Lambda function– both routing requests to our Lambda as well as returning the appropriate result. We give the API Gateway our Lambda function defined as its target. 
+Our API Gateway will sit between our Frontend and Lambda function– both routing requests to our Lambda as well as returning the appropriate result. We give the API Gateway our Lambda function defined as its target.
 
 ```python
 api = Apigatewayv2Api(self, "api-gw",
@@ -178,10 +175,8 @@ api = Apigatewayv2Api(self, "api-gw",
                allow_headers = ["*"]
            )
        )
- 
+
 ```
-
-
 
 We then pass the API Gateway’s endpoint to the PostApi object– this will be later given to our Frontend.
 
@@ -196,16 +191,16 @@ IamRolePolicyAttachment(self, "lambda-managed-policy",
            policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
            role = role.name,
        )
- 
+
 #...
- 
+
 LambdaPermission(self, "apigw-lambda",
            function_name = new_lambda.function_name,
            action = "lambda:InvokeFunction",
            principal = "apigateway.amazonaws.com",
            source_arn = "{}/*/*".format(api.execution_arn)
        )
- 
+
 ```
 
 ### Frontend
@@ -226,7 +221,7 @@ bucket = S3Bucket(self, "bucket",
        )
 ```
 
-The Cloudfront Distribution speeds up the distribution of our Frontend content and reduces the load on our S3 Bucket by caching its contents. It is here we define the behavior and permission of this cache as well as provide the endpoint of the S3 Bucket we defined above. 
+The Cloudfront Distribution speeds up the distribution of our Frontend content and reduces the load on our S3 Bucket by caching its contents. It is here we define the behavior and permission of this cache as well as provide the endpoint of the S3 Bucket we defined above.
 
 ```python
           cf = CloudfrontDistribution(self, "cf",
@@ -276,7 +271,7 @@ The Cloudfront Distribution speeds up the distribution of our Frontend content a
        )
 ```
 
-The file `env.production.local` provides the S3 Bucket and Backend endpoints to our React app. 
+The file `env.production.local` provides the S3 Bucket and Backend endpoints to our React app.
 
 ```python
 File(self, "env",
@@ -291,6 +286,9 @@ Finally we create a TerraformOutput that gives us the domain name of the applica
 TerraformOutput(self, "frontend_domainname",
            value = cf.domain_name,
        ).add_override("value", "https://{}".format(cf.domain_name))
- 
+
 ```
 
+## License
+
+[Mozilla Public License v2.0](https://github.com/hashicorp/cdktf-integration-serverless-python-example/blob/main/LICENSE)
