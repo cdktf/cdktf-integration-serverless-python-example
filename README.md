@@ -2,6 +2,20 @@
 
 This repository contains an end to end serverless web app hosted on AWS and deployed with [CDK for Terraform](https://cdk.tf) in Python. In more application specific terms, we are deploying serverless infrastructure for a web app that has a list of posts and a modal to create a new post by specifying author and content. For more information regarding setup and the features of CDKTF [please refer to these docs](https://www.terraform.io/cdktf).
 
+## Local Usage
+
+### Prerequisites
+
+In order to run this example you must have CDKTF and it's prerequisites installed. For further explanation please see [this quick start demo](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf).
+
+Additionally an AWS account and [AWS credentials configured for use with Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) are needed.
+
+### To Deploy
+
+First run `pipenv install` in the root directory of the project to create a virtual environment with all the needed packages installed.  
+
+Then in that virtual environment `cdktf deploy` can be runned with the stacks that you wish to deploy e.g `cdktf deploy posts-dev frontend-dev` for deploying the dev environement or `cdktf deploy posts-prod frontend-prod` for deploying the production environment.
+
 ## Techstack
 
 Frontend: React, Create React App, statically hosted via AWS S3 + CloudFront

@@ -30,7 +30,6 @@ class Frontend(Resource):
 
         S3BucketPolicy(self, "s3_policy",
             bucket = bucket.bucket,
-            #Might not work 
             policy = json.dumps(
                 {
                     "Version": "2012-10-17",

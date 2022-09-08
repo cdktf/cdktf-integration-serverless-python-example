@@ -5,7 +5,6 @@ from posts.storage import PostsStorage
 
 class Posts(Resource):
 
-    #maybe express in way that show its the same type as the endpoint in PostsApi
     apiEndPoint: str
 
     def __init__(self, scope: Construct, id: str, environment: str, userSuffix: str ):
