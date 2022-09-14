@@ -7,7 +7,5 @@ verify_ssl = true
 python_version = "3"
 
 [packages]
-cdktf = "~=0.10.4"
-cdktf-cdktf-provider-local = "*"
-cdktf-cdktf-provider-aws = "*"
+cdktf = "~=0.12.2"
 boto3 = "*"

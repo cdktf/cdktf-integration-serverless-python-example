@@ -4,10 +4,10 @@ import pathlib
 import json
 from constructs import Construct
 from cdktf import Resource, TerraformAsset, AssetType
-from cdktf_cdktf_provider_aws.dynamodb import DynamodbTable
-from cdktf_cdktf_provider_aws.iam import IamRole, IamRoleInlinePolicy, IamRolePolicyAttachment
-from cdktf_cdktf_provider_aws.lambdafunction import LambdaFunction, LambdaPermission, LambdaFunctionEnvironment
-from cdktf_cdktf_provider_aws.apigatewayv2 import Apigatewayv2Api, Apigatewayv2ApiCorsConfiguration
+from imports.aws.dynamodb import DynamodbTable
+from imports.aws.iam import IamRole, IamRoleInlinePolicy, IamRolePolicyAttachment
+from imports.aws.lambdafunction import LambdaFunction, LambdaPermission, LambdaFunctionEnvironment
+from imports.aws.apigatewayv2 import Apigatewayv2Api, Apigatewayv2ApiCorsConfiguration
 
 
 class PostsApi(Resource):

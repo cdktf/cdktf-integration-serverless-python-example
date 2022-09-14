@@ -1,5 +1,5 @@
 from unicodedata import name
-from cdktf_cdktf_provider_aws.dynamodb import DynamodbTable, DynamodbTableAttribute
+from imports.aws.dynamodb import DynamodbTable, DynamodbTableAttribute
 from cdktf import Resource
 from constructs import Construct
 
