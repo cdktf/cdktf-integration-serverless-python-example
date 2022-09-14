@@ -3,7 +3,7 @@ import os
 import os.path as Path
 from constructs import Construct
 from cdktf import Resource, TerraformOutput
-from imports.local import File
+from imports.local.file import File
 from imports.aws.s3 import S3Bucket, S3BucketPolicy, S3BucketWebsiteConfiguration, S3BucketWebsiteConfigurationIndexDocument, S3BucketWebsiteConfigurationErrorDocument
 from imports.aws.cloudfront import CloudfrontDistribution, CloudfrontDistributionDefaultCacheBehavior, CloudfrontDistributionDefaultCacheBehaviorForwardedValues, CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies, CloudfrontDistributionOrigin, CloudfrontDistributionOriginCustomOriginConfig, CloudfrontDistributionRestrictions,CloudfrontDistributionRestrictionsGeoRestriction, CloudfrontDistributionViewerCertificate
 
