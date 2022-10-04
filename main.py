@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
-from cdktf_cdktf_provider_aws import AwsProvider
-from cdktf_cdktf_provider_local import LocalProvider
+from cdktf_cdktf_provider_aws.provider import AwsProvider
+from cdktf_cdktf_provider_local.provider import LocalProvider
 from constructs import Construct
 from cdktf import App, NamedRemoteWorkspace, RemoteBackend, TerraformStack
 from frontend.index import Frontend
