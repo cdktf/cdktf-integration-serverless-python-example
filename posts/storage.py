@@ -1,9 +1,7 @@
-from unicodedata import name
-from cdktf_cdktf_provider_aws.dynamodb import DynamodbTable, DynamodbTableAttribute
-from cdktf import Resource
+from cdktf_cdktf_provider_aws.dynamodb_table import DynamodbTable, DynamodbTableAttribute
 from constructs import Construct
 
-class PostsStorage(Resource):
+class PostsStorage(Construct):
 
     table: DynamodbTable
 

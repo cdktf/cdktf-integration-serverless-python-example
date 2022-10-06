@@ -1,9 +1,8 @@
-from cdktf import Resource
 from constructs import Construct
 from posts.api.index import PostsApi
 from posts.storage import PostsStorage
 
-class Posts(Resource):
+class Posts(Construct):
 
     apiEndPoint: str
 

@@ -2,15 +2,17 @@ import json
 import os
 import os.path as Path
 from constructs import Construct
-from cdktf import Resource, TerraformOutput
-from cdktf_cdktf_provider_local import File
-from cdktf_cdktf_provider_aws.s3 import S3Bucket, S3BucketPolicy, S3BucketWebsiteConfiguration, S3BucketWebsiteConfigurationIndexDocument, S3BucketWebsiteConfigurationErrorDocument
-from cdktf_cdktf_provider_aws.cloudfront import CloudfrontDistribution, CloudfrontDistributionDefaultCacheBehavior, CloudfrontDistributionDefaultCacheBehaviorForwardedValues, CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies, CloudfrontDistributionOrigin, CloudfrontDistributionOriginCustomOriginConfig, CloudfrontDistributionRestrictions,CloudfrontDistributionRestrictionsGeoRestriction, CloudfrontDistributionViewerCertificate
+from cdktf import TerraformOutput
+from cdktf_cdktf_provider_local.file import File
+from cdktf_cdktf_provider_aws.s3_bucket import S3Bucket
+from cdktf_cdktf_provider_aws.s3_bucket_website_configuration import S3BucketWebsiteConfiguration, S3BucketWebsiteConfigurationIndexDocument, S3BucketWebsiteConfigurationErrorDocument
+from cdktf_cdktf_provider_aws.s3_bucket_policy import S3BucketPolicy
+from cdktf_cdktf_provider_aws.cloudfront_distribution import CloudfrontDistribution, CloudfrontDistributionDefaultCacheBehavior, CloudfrontDistributionDefaultCacheBehaviorForwardedValues, CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies, CloudfrontDistributionOrigin, CloudfrontDistributionOriginCustomOriginConfig, CloudfrontDistributionRestrictions,CloudfrontDistributionRestrictionsGeoRestriction, CloudfrontDistributionViewerCertificate
 
 
 S3_ORIGIN_ID = "s3Origin"
 
-class Frontend(Resource):
+class Frontend(Construct):
 
     def __init__(self, scope: Construct, id: str, environment: str, apiEndPoint: str):
         super().__init__(scope, id)
