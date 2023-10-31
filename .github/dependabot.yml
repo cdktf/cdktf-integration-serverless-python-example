@@ -16,10 +16,10 @@ updates:
       - dependency-name: "cdktf-cdktf-provider-local"
         update-types: ["version-update:semver-patch"]
     groups:
-      cdktf:
-        patterns:
-          - "cdktf"
-          - "cdktf-cdktf-provider-*"
+      # cdktf:
+      #   patterns:
+      #     - "cdktf"
+      #     - "cdktf-cdktf-provider-*"
       test:
         patterns:
           - "pytest" 
