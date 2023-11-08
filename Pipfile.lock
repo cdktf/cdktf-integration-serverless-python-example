@@ -55,7 +55,6 @@
                 "sha256:a6b0819a4c276e152997d5d8624488331706e483a7fc348f9ffcbe471912dc44"
             ],
             "index": "pypi",
-            "markers": "python_version ~= '3.7'",
             "version": "==0.15.5"
         },
         "cdktf-cdktf-provider-aws": {
@@ -64,7 +63,6 @@
                 "sha256:f4e9619b709653a1db777657799961be34b263d8f9eae1350a849a1df3f0fc09"
             ],
             "index": "pypi",
-            "markers": "python_version ~= '3.7'",
             "version": "==13.0.0"
         },
         "cdktf-cdktf-provider-local": {
@@ -73,7 +71,6 @@
                 "sha256:ffe704c0a6a8e23fe4c7003b84c7fb38682a911a931926896066793a93af45f2"
             ],
             "index": "pypi",
-            "markers": "python_version ~= '3.7'",
             "version": "==5.0.1"
         },
         "constructs": {
