@@ -20,16 +20,20 @@ updates:
       - "automerge"
       - "auto-approve"
     open-pull-requests-limit: 5
-    versioning-strategy: "increase"
-    # ignore:
-    #   # For providers, ignore all patch updates for version updates only
-    #   - dependency-name: "cdktf-cdktf-provider-*"
-    #     update-types: ["version-update:semver-patch"]
+    versioning-strategy: "increase-if-necessary"
+    allow:
+      - dependency-type: "all"
+    ignore:
+      # For providers, ignore all patch updates for version updates only
+      - dependency-name: "cdktf-cdktf-provider-*"
+        update-types: ["version-update:semver-patch"]
     groups:
       cdktf:
         patterns:
           - "cdktf"
           - "cdktf-cdktf-provider-*"
+          - "constructs"
+          - "jsii"
       test:
         patterns:
           - "pytest" 
