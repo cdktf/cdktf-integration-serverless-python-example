@@ -32,8 +32,6 @@ updates:
         patterns:
           - "cdktf"
           - "cdktf-cdktf-provider-*"
-          - "constructs"
-          - "jsii"
       test:
         patterns:
           - "pytest" 
